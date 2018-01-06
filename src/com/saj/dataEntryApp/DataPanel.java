@@ -1,0 +1,53 @@
+package com.saj.dataEntryApp;
+
+import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.awt.event.*;
+
+@SuppressWarnings("serial")
+public class DataPanel extends JPanel {
+	protected JTextField nameField;
+	protected JTextField ageField;
+	
+	public DataPanel() {
+		buildDisplay();
+	}
+	
+	public void validateInput() throws InputValidationException {
+		String name = nameField.getText();
+		if(name == null) {
+			throw new InputValidationException("No name was specified", nameField);
+		}
+		
+		String age = ageField.getText();
+		try {
+			int value = Integer.parseInt(age);
+			if(value <= 0) {
+				throw new InputValidationException("Age value must be a positive " +
+													"integer", ageField);
+			}
+		}
+		catch(NumberFormatException e) {
+			throw new InputValidationException("Age value is missing " + 
+												"or invalid", ageField);
+		}
+	}
+	
+	protected void buildDisplay() {
+		setLayout(new GridLayout(2,2,10,5));
+		JLabel label = new JLabel("Name: ");
+		add(label);
+		nameField = new JTextField(10);
+		add(nameField);
+		label = new JLabel("Age: ");
+		add(label);
+		ageField = new JTextField(10);
+		add(ageField);
+		ageField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				
+			}
+		});
+	}
+}
